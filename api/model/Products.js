@@ -83,12 +83,12 @@ class Products {
     const query = `
       DELETE FROM Products WHERE prodID = ${req.params.id}
       `;
-      
+
     db.query(query, (err, results) => {
       if (err) throw err;
       res.json({
         status: res.statusCode,
-        results,
+        msg: "Product deleted successfully",
       });
     });
   }
