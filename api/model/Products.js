@@ -59,49 +59,31 @@ class Products {
 
   // updating a product
   updateProduct(req, res) {
+    const product = {
+      prodName: req.body.prodName,
+      quantity: req.body.quantity,
+      amount: req.body.amount,
+      Category: req.body.Category,
+      prodUrl: req.body.prodUrl,
+    };
     const query = `
-            SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id}
+            UPDATE Products SET ? WHERE prodID = ${req.params.id}
         `;
-    const updatedProd = req.body;
-    const index = this.products.findIndex((product) => product.id === prodID);
 
-    if (index !== -1) {
-      this.products[index] = { ...this.products[index], ...updatedProd };
-      res.json({
-        msg: "Product updated successfully",
-        product: this.products[index],
-      });
-    } else {
-      res.status(404).json({
-        msg: "Product not found",
-      });
-    }
-
-    db.query(query, (err, results) => {
+    db.query(query, product, (err, results) => {
       if (err) throw err;
       res.json({
         status: res.statusCode,
-        results,
+        msg: "The product was successfully updated",
       });
     });
   }
+  // deleting a record
   deleteProduct(req, res) {
     const query = `
-      SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id}
+      DELETE FROM Products WHERE prodID = ${req.params.id}
       `;
-    const index = this.products.findIndex((product) => product.id === prodID);
-
-    if (index !== -1) {
-      const deletedProd = this.products.splice(index, 1);
-      res.json({
-        msg: "Product deleted successfully",
-        product: deletedProd,
-      });
-    } else {
-      res.status(404).json({
-        msg: "Product not found",
-      });
-    }
+      
     db.query(query, (err, results) => {
       if (err) throw err;
       res.json({
