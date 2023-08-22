@@ -1,10 +1,29 @@
-const db = require('../config')
+const db = require("../config");
 
-class Products{
-    const 
+class Products {
+  addProduct(req, res) {
+    const product = {
+      prodName: req.body.prodName,
+      quantity: req.body.quantity,
+      amount: req.body.amount,
+      Category: req.body.Category,
+      prodUrl: req.body.prodUrl,
+    };
 
-    fetchProducts(req, res){
-        const query = `
+    const query = "INSERT INTO Products SET ?";
+    db.query(query, product, (err, result) => {
+      if (err) throw err;
+      res.json({
+        status: res.statusCode,
+        msg: "Product added successfully",
+        productID: result.insertID,
+      });
+    });
+  }
+  //retrieving products
+
+  fetchProducts(req, res) {
+    const query = `
             SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products 
         `;
 
@@ -15,78 +34,81 @@ class Products{
         results,
       });
     });
-    }
-    fetchProduct(req, res){
-        const query = `
+  }
+
+  //retrieving a single product
+  fetchProduct(req, res) {
+    const query = `
             SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id}
         `;
     db.query(query, (err, result) => {
       if (err) throw err;
-      res.json({
-        status: res.statusCode,
-        result,
-      });
+      if (result.length === 0) {
+        res.status(404).json({
+          status: 404,
+          msg: "Product not found",
+        });
+      } else {
+        res.json({
+          status: res.statusCode,
+          results: result[0],
+        });
+      }
     });
-    }
-    addProduct(req, res){
-      const newProd = req.body;
-      this.products.push(newProd);
-      res.status(200).json({
-        msg: "Product added successfully",
-        product: newProd
-      });
-    }
-    updateProduct(req, res){
-      const query = `
+  }
+
+  // updating a product
+  updateProduct(req, res) {
+    const query = `
             SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id}
         `;
-      const updatedProd = req.body;
-      const index = this.products.findIndex( product => product.id === prodID);
-      
-      if(index !== -1) {
-        this.products[index] = {...this.products[index], ...updatedProd};
-        res.json({
-          msg: "Product updated successfully",
-          product: this.products[index]
-        });
-      } else {
-        res.status(404).json({
-          msg: "Product not found"
-        });
-      }
+    const updatedProd = req.body;
+    const index = this.products.findIndex((product) => product.id === prodID);
 
-      db.query(query, (err, results) => {
-        if (err) throw err;
-        res.json({
-          status: res.statusCode,
-          results,
-        });
+    if (index !== -1) {
+      this.products[index] = { ...this.products[index], ...updatedProd };
+      res.json({
+        msg: "Product updated successfully",
+        product: this.products[index],
+      });
+    } else {
+      res.status(404).json({
+        msg: "Product not found",
       });
     }
-    deleteProduct(req, res){
-      const query = `
+
+    db.query(query, (err, results) => {
+      if (err) throw err;
+      res.json({
+        status: res.statusCode,
+        results,
+      });
+    });
+  }
+  deleteProduct(req, res) {
+    const query = `
       SELECT prodID, prodName, quantity, amount, Category, prodUrl FROM Products WHERE prodID = ${req.params.id}
       `;
-      const index = this.products.findIndex( product => product.id === prodID);
+    const index = this.products.findIndex((product) => product.id === prodID);
 
-      if(index !== -1) {
-        const deletedProd = this.products.splice(index, 1);
-        res.json({
-          msg: "Product deleted successfully",
-          product: deletedProd
-        });
-      } else {
-        res.status(404).json({
-          msg: "Product not found"
-        });
-      }
-      db.query(query, (err, results) => {
-        if (err) throw err;
-        res.json({
-          status: res.statusCode,
-          results,
-        });
+    if (index !== -1) {
+      const deletedProd = this.products.splice(index, 1);
+      res.json({
+        msg: "Product deleted successfully",
+        product: deletedProd,
+      });
+    } else {
+      res.status(404).json({
+        msg: "Product not found",
       });
     }
+    db.query(query, (err, results) => {
+      if (err) throw err;
+      res.json({
+        status: res.statusCode,
+        results,
+      });
+    });
+  }
 }
-module.exports = Products
+module.exports = Products;
