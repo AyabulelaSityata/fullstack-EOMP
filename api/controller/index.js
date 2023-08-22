@@ -13,14 +13,20 @@ routes.get('users', (req, res) => {
 routes.get('/user/:id', (req, res) => {
     users.fetchUser(req, res)
 })
-
+// register
 routes.post('/register', bodyParser.json(), (req, res) => {
     users.register(req, res)
 })
 
+// login
+routes.post('/login', bodyParser.json(), (req, res) => {
+    users.login(req, res)
+})
+/*
 routes.put('/user/:id', bodyParser.json(), (req, res) => {
     users.updateUser(req, res)
 })
+*/
 
 routes.patch('/user/:id', bodyParser.json(), (req, res) => {
     users.updateUser(req, res)
@@ -30,16 +36,29 @@ routes.delete('/user/:id', (req, res) => {
     users.deleteUser(req, res)
 })
 
-routes.post('/login', bodyParser.json(), (req, res)=>{
-    users.login(req, res)
-})
-
 // products router
+// retrieve all users
 routes.get('/products', verifyAToken, (req, res) =>{
     products.fetchProducts(req, res)
 })
+
+//retrieving a single user
+routes.get('/product/:id', verifyAToken, (req, res) =>{
+    products.fetchProduct(req, res)
+})
+// adding a new product
 routes.post('/addproduct', bodyParser.json(), (req, res) =>{
-    products.register(req, res)
+    products.addProduct(req, res)
+})
+
+// updating a product by id
+routes.patch('/product/:id', bodyParser.json(), (req, res) => {
+    products.updateProduct(req, res)
+})
+
+// deleting a product by id
+routes.delete('/product/:id', bodyParser.json(), (req, res) => {
+    products.deleteProduct(req, res)
 })
 
 module.exports = {
