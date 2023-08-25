@@ -6,7 +6,7 @@ const {verifyAToken} = require('../middleware/Authentication')
 const {users, products} = require('../model')
 
 // ===User's router ====
-routes.get('users', (req, res) => {
+routes.get('/users', (req, res) => {
     users.fetchUsers(req, res)
 })
 
