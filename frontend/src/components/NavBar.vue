@@ -22,9 +22,6 @@
         <li class="nav-item">
           <router-link class="nav-link" to="/admin">Admin</router-link>
         </li>
-        <!-- <li class="nav-item">
-          <router-link class="nav-link" to="#">Checkout</router-link>
-        </li> -->
       </ul>
     </div>
   </div>

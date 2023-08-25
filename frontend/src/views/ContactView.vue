@@ -1,5 +1,8 @@
 <template >
-     <form action="https://formspree.io/f/mrgvdzoj" method="POST">
+<div v-if="loading">
+  <Spinner/>
+</div>
+     <form @submit.prevent="submit" action="https://formspree.io/f/mrgvdzoj" method="POST">
       <label>
         <div>First Name</div>
         <input class="rounded" type="text" name="firstname" id="firstname" required />
@@ -22,8 +25,11 @@
     </form>
 </template>
 <script>
+import Spinner from '../components/Spinner.vue';
 export default {
-    
+    components: {
+      Spinner
+    }
 }
 </script>
 <style scoped>

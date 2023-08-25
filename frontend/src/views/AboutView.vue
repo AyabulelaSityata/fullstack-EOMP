@@ -1,4 +1,7 @@
 <template>
+<div v-if="loading">
+  <Spinner/>
+</div>
   <div class="about">
     <img src="https://i.postimg.cc/R0G3fKwn/shoe-rotation-stability-1200.webp" class="d-block w-100" alt="" height="550vh">
   </div>
@@ -13,6 +16,14 @@
     </div>
   </div>
 </template>
+<script>
+import Spinner from '../components/Spinner.vue';
+export default {
+  components: {
+    Spinner
+  }
+}
+</script>
 <style scoped>
    .card {
     background-color: #C2DBF8;
