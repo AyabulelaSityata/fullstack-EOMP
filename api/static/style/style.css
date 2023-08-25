@@ -10,3 +10,18 @@ body {
     align-items: center;
     text-align: center;
 }
+.heading{
+    height: 10vh;
+}
+.container {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+}
+table{
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+th,td{
+    border: 2px solid black;
+}

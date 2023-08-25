@@ -30,7 +30,7 @@ app.use(
 // Handling errors using error middleware.
 app.use(errorHandling)
     
-routes.get('^/$|/fullstack-EOMP',
+routes.get('^/$|/fullstack-EOMP/',
     (req, res) => {
         res.sendFile(path.resolve(__dirname, './static/html/index.html'))
 })
